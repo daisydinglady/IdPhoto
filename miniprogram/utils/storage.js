@@ -96,8 +96,30 @@ const storage = {
         const fsm = wx.getFileSystemManager();
         const filePath = `${wx.env.USER_DATA_PATH}/${fileName}`;
 
-        // base64 数据处理
-        const base64 = base64Data.replace(/^data:image\/\w+;base64,/, '');
+        // 检查 base64 数据是否有效
+        if (!base64Data || typeof base64Data !== 'string') {
+          reject(new Error('Invalid base64 data'));
+          return;
+        }
+
+        // 移除可能的前缀（data:image/xxx;base64,）
+        let base64 = base64Data;
+        if (base64Data.includes(',')) {
+          base64 = base64Data.split(',')[1];
+        } else if (base64Data.includes(';base64,')) {
+          base64 = base64Data.replace(/^data:image\/\w+;base64,/, '');
+        }
+
+        // 清理可能的空白字符
+        base64 = base64.trim();
+
+        // 验证 base64 字符串（只包含 base64 字符）
+        if (!/^[A-Za-z0-9+/]*={0,2}$/.test(base64)) {
+          reject(new Error('Invalid base64 format'));
+          return;
+        }
+
+        // 转换为 ArrayBuffer
         const buffer = wx.base64ToArrayBuffer(base64);
 
         fsm.writeFile({
@@ -105,9 +127,13 @@ const storage = {
           data: buffer,
           encoding: 'binary',
           success: () => resolve(filePath),
-          fail: (err) => reject(err)
+          fail: (err) => {
+            console.error('写入文件失败：', err);
+            reject(err);
+          }
         });
       } catch (error) {
+        console.error('saveBase64Image 错误：', error);
         reject(error);
       }
     });

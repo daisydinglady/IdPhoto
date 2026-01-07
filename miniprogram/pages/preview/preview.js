@@ -18,14 +18,17 @@ Page({
   },
 
   onLoad(options) {
-    const { layoutData, singleData, name } = options;
+    const { layoutData, singleData, singlePath, name } = options;
 
     this.setData({
       photoType: { name: name || '证件照' }
     });
 
-    // 处理单张证件照
-    if (singleData) {
+    // 处理单张证件照（优先处理文件路径）
+    if (singlePath) {
+      // 直接使用文件路径
+      this.setData({ singleImageUrl: decodeURIComponent(singlePath) });
+    } else if (singleData) {
       try {
         const single = JSON.parse(decodeURIComponent(singleData));
         // 如果是 base64，转换为临时文件
