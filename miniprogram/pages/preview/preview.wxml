@@ -1,0 +1,85 @@
+<!--pages/preview/preview.wxml-->
+<view class="container">
+  <!-- 标签切换 -->
+  <view class="tabs">
+    <view
+      class="tab {{currentView === 'single' ? 'active' : ''}}"
+      bindtap="switchView"
+      data-view="single"
+    >
+      单张证件照
+    </view>
+    <view
+      class="tab {{currentView === 'layout' ? 'active' : ''}}"
+      bindtap="switchView"
+      data-view="layout"
+    >
+      排版照
+    </view>
+  </view>
+
+  <!-- 预览区域 -->
+  <view class="preview-section">
+    <block wx:if="{{currentView === 'single'}}">
+      <image
+        class="preview-image"
+        src="{{singleImageUrl}}"
+        mode="aspectFit"
+        bindtap="previewImage"
+        data-url="{{singleImageUrl}}"
+      ></image>
+    </block>
+    <block wx:else>
+      <image
+        class="preview-image"
+        src="{{layoutImageUrl}}"
+        mode="aspectFit"
+        bindtap="previewImage"
+        data-url="{{layoutImageUrl}}"
+      ></image>
+    </block>
+  </view>
+
+  <!-- 提示信息 -->
+  <view class="tips card">
+    <text class="tips-title">💡 保存提示</text>
+    <text class="tips-text">点击下方按钮观看广告后，即可保存高清证件照到相册</text>
+  </view>
+
+  <!-- 保存按钮 -->
+  <view class="save-section">
+    <button
+      class="btn btn-primary save-btn"
+      bindtap="watchAdAndSave"
+      disabled="{{hasWatchedAd}}"
+    >
+      <text>{{hasWatchedAd ? '已解锁' : '🎬 观看广告保存'}}</text>
+    </button>
+
+    <button
+      class="btn btn-secondary download-btn"
+      bindtap="saveToAlbum"
+      disabled="{{!hasWatchedAd}}"
+    >
+      <text>{{hasWatchedAd ? '💾 保存到相册' : '请先观看广告'}}</text>
+    </button>
+  </view>
+
+  <!-- 其他操作 -->
+  <view class="extra-actions">
+    <button class="btn btn-outline" bindtap="backToEdit">
+      <text>返回编辑</text>
+    </button>
+  </view>
+</view>
+
+<!-- 广告组件（如果已配置） -->
+<block wx:if="{{adEnabled}}">
+  <ad
+    unit-id="{{adUnitId}}"
+    ad-type="video"
+    bindload="adLoad"
+    binderror="adError"
+    bindclose="adClose"
+  ></ad>
+</block>

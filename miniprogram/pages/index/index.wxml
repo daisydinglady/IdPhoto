@@ -1,0 +1,63 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <!-- 头部 -->
+  <view class="header">
+    <text class="title">证件照制作</text>
+    <text class="subtitle">选择你需要的证件照类型</text>
+  </view>
+
+  <!-- 分类标签 -->
+  <view class="tabs">
+    <view
+      class="tab {{currentTab === 'common' ? 'active' : ''}}"
+      data-tab="common"
+      bindtap="switchTab"
+    >
+      常用尺寸
+    </view>
+    <view
+      class="tab {{currentTab === 'exam' ? 'active' : ''}}"
+      data-tab="exam"
+      bindtap="switchTab"
+    >
+      考试报名
+    </view>
+    <view
+      class="tab {{currentTab === 'visa' ? 'active' : ''}}"
+      data-tab="visa"
+      bindtap="switchTab"
+    >
+      签证护照
+    </view>
+  </view>
+
+  <!-- 证件照列表 -->
+  <view class="photo-list">
+    <block wx:for="{{currentList}}" wx:key="id">
+      <view class="photo-card" bindtap="selectSize" data-size="{{item}}">
+        <view class="photo-icon">
+          <view class="photo-placeholder">
+            <text class="photo-text">{{item.width}}×{{item.height}}</text>
+          </view>
+        </view>
+        <view class="photo-info">
+          <text class="photo-name">{{item.name}}</text>
+          <text class="photo-desc">{{item.desc}}</text>
+          <view class="photo-usage">
+            <block wx:for="{{item.usage}}" wx:for-item="usage" wx:for-index="idx" wx:key="idx">
+              <text class="usage-tag">{{usage}}</text>
+            </block>
+          </view>
+        </view>
+        <view class="photo-arrow">
+          <text class="arrow">›</text>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 底部说明 -->
+  <view class="footer">
+    <text class="footer-text">AI 智能抠图 · 自动裁切 · 多种尺寸</text>
+  </view>
+</view>

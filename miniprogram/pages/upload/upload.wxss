@@ -1,0 +1,139 @@
+/* pages/upload/upload.wxss */
+.type-info {
+  text-align: center;
+  padding: 40rpx 24rpx;
+}
+
+.type-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16rpx;
+}
+
+.type-name {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #333;
+  margin-right: 16rpx;
+}
+
+.type-size {
+  font-size: 28rpx;
+  color: #4A90E2;
+  background: #E6F3FF;
+  padding: 6rpx 16rpx;
+  border-radius: 8rpx;
+}
+
+.type-desc {
+  font-size: 28rpx;
+  color: #999;
+}
+
+/* 上传区域 */
+.upload-section {
+  margin: 30rpx 0;
+}
+
+.upload-preview {
+  width: 100%;
+  height: 800rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+}
+
+.change-image {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 20rpx;
+  text-align: center;
+  font-size: 28rpx;
+}
+
+.upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.upload-icon {
+  font-size: 120rpx;
+  color: #4A90E2;
+  margin-bottom: 20rpx;
+}
+
+.upload-text {
+  font-size: 32rpx;
+  color: #333;
+  margin-bottom: 12rpx;
+}
+
+.upload-hint {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 拍照按钮 */
+.camera-section {
+  margin: 30rpx 0;
+}
+
+.camera-btn {
+  width: 100%;
+}
+
+/* 要求列表 */
+.requirements {
+  margin: 30rpx 0;
+}
+
+.req-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.req-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.req-item {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 2;
+}
+
+/* 操作按钮 */
+.action-section {
+  margin: 40rpx 0;
+}
+
+.generate-btn {
+  width: 100%;
+  height: 96rpx;
+  line-height: 96rpx;
+  font-size: 36rpx;
+}
+
+.generate-btn.disabled {
+  background: #E0E0E0;
+  color: #999;
+}

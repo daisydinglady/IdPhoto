@@ -1,0 +1,59 @@
+<!--pages/upload/upload.wxml-->
+<view class="container">
+  <!-- 证件照类型信息 -->
+  <view class="card type-info">
+    <view class="type-header">
+      <text class="type-name">{{photoType.name}}</text>
+      <text class="type-size">{{photoType.width}} × {{photoType.height}} px</text>
+    </view>
+    <text class="type-desc">{{photoType.desc}}</text>
+  </view>
+
+  <!-- 上传区域 -->
+  <view class="upload-section">
+    <view class="upload-preview" bindtap="chooseImage">
+      <block wx:if="{{imagePath}}">
+        <image class="preview-image" src="{{imagePath}}" mode="aspectFill"></image>
+        <view class="change-image">
+          <text>点击更换</text>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="upload-placeholder">
+          <text class="upload-icon">+</text>
+          <text class="upload-text">点击上传照片</text>
+          <text class="upload-hint">支持 JPG、PNG 格式，小于 10MB</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 拍照按钮 -->
+  <view class="camera-section">
+    <button class="btn btn-primary camera-btn" bindtap="takePhoto">
+      <text>📷 拍照上传</text>
+    </button>
+  </view>
+
+  <!-- 上传要求 -->
+  <view class="requirements card">
+    <text class="req-title">照片要求</text>
+    <view class="req-list">
+      <text class="req-item">• 请使用近期正面照片</text>
+      <text class="req-item">• 光线充足，背景干净</text>
+      <text class="req-item">• 五官清晰，表情自然</text>
+      <text class="req-item">• 不戴帽子、墨镜等饰品</text>
+    </view>
+  </view>
+
+  <!-- 生成按钮 -->
+  <view class="action-section">
+    <button
+      class="btn btn-primary generate-btn {{!imagePath ? 'disabled' : ''}}"
+      bindtap="generateIdphoto"
+      disabled="{{!imagePath}}"
+    >
+      <text>{{loading ? '处理中...' : '开始制作'}}</text>
+    </button>
+  </view>
+</view>

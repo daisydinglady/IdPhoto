@@ -1,0 +1,26 @@
+# Node.js
+node_modules/
+npm-debug.log
+package-lock.json
+.env
+.DS_Store
+
+# 小程序
+miniprogram/.DS_Store
+miniprogram/miniprogram_npm/
+miniprogram/node_modules/
+
+# 日志
+logs/
+*.log
+
+# 临时文件
+*.tmp
+*.temp
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
