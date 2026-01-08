@@ -1,0 +1,93 @@
+/* pages/profile/profile.wxss */
+/* 用户头部 */
+.user-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80rpx 0 60rpx;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 0 0 40rpx 40rpx;
+  margin-bottom: 40rpx;
+}
+
+.user-avatar {
+  width: 120rpx;
+  height: 120rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20rpx;
+  border: 4rpx solid rgba(255, 255, 255, 0.3);
+}
+
+.avatar-icon {
+  font-size: 64rpx;
+}
+
+.user-name {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* 功能列表 */
+.function-list {
+  background: #fff;
+  border-radius: 24rpx;
+  overflow: hidden;
+  box-shadow: 0 8rpx 24rpx rgba(102, 126, 234, 0.08);
+}
+
+.function-card {
+  display: flex;
+  align-items: center;
+  padding: 32rpx 28rpx;
+  border-bottom: 1rpx solid #F0F4FF;
+  transition: background 0.3s;
+}
+
+.function-card:last-child {
+  border-bottom: none;
+}
+
+.function-card:active {
+  background: #F8FAFC;
+}
+
+.function-icon {
+  width: 64rpx;
+  height: 64rpx;
+  background: linear-gradient(135deg, #F0F4FF 0%, #E0E9FF 100%);
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+  font-size: 36rpx;
+}
+
+.function-name {
+  flex: 1;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #2D3748;
+}
+
+.function-arrow {
+  font-size: 40rpx;
+  color: #C7D2FE;
+  font-weight: 300;
+}
+
+/* 版本信息 */
+.version-info {
+  text-align: center;
+  padding: 60rpx 0 40rpx;
+}
+
+.version-text {
+  font-size: 24rpx;
+  color: #8B94A6;
+}

@@ -1,0 +1,20 @@
+<!--pages/profile/faq/faq.wxml-->
+<view class="container">
+  <view class="header">
+    <text class="title">常见问题</text>
+  </view>
+
+  <view class="faq-list">
+    <block wx:for="{{faqList}}" wx:key="id">
+      <view class="faq-card" bindtap="toggleAnswer" data-index="{{index}}">
+        <view class="faq-question">
+          <text class="question-text">{{item.question}}</text>
+          <text class="toggle-icon {{item.expanded ? 'expanded' : ''}}">▼</text>
+        </view>
+        <view class="faq-answer {{item.expanded ? 'show' : ''}}">
+          <text class="answer-text">{{item.answer}}</text>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

@@ -1,0 +1,112 @@
+/* pages/tools/tools.wxss */
+.header {
+  padding: 60rpx 0 40rpx;
+  text-align: center;
+}
+
+/* 工具列表 */
+.tools-list {
+  margin-bottom: 40rpx;
+}
+
+.tool-card {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 8rpx 24rpx rgba(102, 126, 234, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.tool-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 6rpx;
+  background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+  transform: scaleY(0);
+  transition: transform 0.3s;
+}
+
+.tool-card:active::before {
+  transform: scaleY(1);
+}
+
+.tool-card:active {
+  transform: translateX(8rpx);
+  box-shadow: 0 12rpx 32rpx rgba(102, 126, 234, 0.15);
+}
+
+.tool-icon {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+  box-shadow: 0 4rpx 12rpx rgba(102, 126, 234, 0.2);
+}
+
+.tool-emoji {
+  font-size: 48rpx;
+}
+
+.tool-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tool-name {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #2D3748;
+  margin-bottom: 8rpx;
+}
+
+.tool-desc {
+  font-size: 24rpx;
+  color: #8B94A6;
+}
+
+.tool-arrow {
+  flex-shrink: 0;
+  margin-left: 16rpx;
+}
+
+.arrow {
+  font-size: 48rpx;
+  color: #E0E6ED;
+  font-weight: 300;
+}
+
+/* 提示卡片 */
+.tips {
+  text-align: center;
+  padding: 32rpx;
+  background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
+  border: 2rpx solid #BAE6FD;
+  border-radius: 24rpx;
+}
+
+.tips-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #0369A1;
+  margin-bottom: 12rpx;
+}
+
+.tips-text {
+  display: block;
+  font-size: 24rpx;
+  color: #0C4A6E;
+  line-height: 1.6;
+}

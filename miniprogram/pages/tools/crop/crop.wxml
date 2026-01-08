@@ -1,0 +1,10 @@
+<!--pages/tools/change-bg/change-bg.wxml-->
+<view class="container">
+  <view class="tool-page">
+    <text class="tool-title">更换背景色</text>
+    <view class="upload-area">
+      <text class="upload-hint">点击上传照片更换背景色</text>
+    </view>
+    <button class="btn btn-primary" bindtap="chooseImage">上传照片</button>
+  </view>
+</view>

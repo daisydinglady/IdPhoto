@@ -1,0 +1,62 @@
+<!--pages/profile/profile.wxml-->
+<view class="container">
+  <!-- 用户头部 -->
+  <view class="user-header">
+    <view class="user-avatar">
+      <text class="avatar-icon">👤</text>
+    </view>
+    <text class="user-name">欢迎使用</text>
+  </view>
+
+  <!-- 功能列表 -->
+  <view class="function-list">
+    <!-- 常见问题 -->
+    <view class="function-card" bindtap="goToFAQ">
+      <view class="function-icon">
+        <text>❓</text>
+      </view>
+      <text class="function-name">常见问题</text>
+      <view class="function-arrow">
+        <text>→</text>
+      </view>
+    </view>
+
+    <!-- 拍摄攻略 -->
+    <view class="function-card" bindtap="goToGuide">
+      <view class="function-icon">
+        <text>📖</text>
+      </view>
+      <text class="function-name">拍摄攻略</text>
+      <view class="function-arrow">
+        <text>→</text>
+      </view>
+    </view>
+
+    <!-- 关于我们 -->
+    <view class="function-card" bindtap="goToAbout">
+      <view class="function-icon">
+        <text>ℹ️</text>
+      </view>
+      <text class="function-name">关于我们</text>
+      <view class="function-arrow">
+        <text>→</text>
+      </view>
+    </view>
+
+    <!-- 联系我们 -->
+    <view class="function-card" bindtap="goToContact">
+      <view class="function-icon">
+        <text>📞</text>
+      </view>
+      <text class="function-name">联系我们</text>
+      <view class="function-arrow">
+        <text>→</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 版本信息 -->
+  <view class="version-info">
+    <text class="version-text">版本 1.0.0</text>
+  </view>
+</view>

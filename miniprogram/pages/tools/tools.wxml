@@ -1,0 +1,101 @@
+<!--pages/tools/tools.wxml-->
+<view class="container">
+  <!-- 头部 -->
+  <view class="header">
+    <text class="title">实用工具</text>
+    <text class="subtitle">便捷的证件照处理工具</text>
+  </view>
+
+  <!-- 工具列表 -->
+  <view class="tools-list">
+    <!-- 更换背景色 -->
+    <view class="tool-card fade-in" style="animation-delay: 0.1s;" bindtap="changeBackground">
+      <view class="tool-icon bg-gradient-primary">
+        <text class="tool-emoji">🎨</text>
+      </view>
+      <view class="tool-info">
+        <text class="tool-name">更换背景色</text>
+        <text class="tool-desc">快速更换照片背景颜色</text>
+      </view>
+      <view class="tool-arrow">
+        <text class="arrow">→</text>
+      </view>
+    </view>
+
+    <!-- 生成排版照 -->
+    <view class="tool-card fade-in" style="animation-delay: 0.2s;" bindtap="generateLayout">
+      <view class="tool-icon bg-gradient-secondary">
+        <text class="tool-emoji">📐</text>
+      </view>
+      <view class="tool-info">
+        <text class="tool-name">生成排版照</text>
+        <text class="tool-desc">制作六寸排版打印照</text>
+      </view>
+      <view class="tool-arrow">
+        <text class="arrow">→</text>
+      </view>
+    </view>
+
+    <!-- 人像抠图 -->
+    <view class="tool-card fade-in" style="animation-delay: 0.3s;" bindtap="humanMatting">
+      <view class="tool-icon bg-gradient-success">
+        <text class="tool-emoji">✂️</text>
+      </view>
+      <view class="tool-info">
+        <text class="tool-name">人像抠图</text>
+        <text class="tool-desc">智能提取人像</text>
+      </view>
+      <view class="tool-arrow">
+        <text class="arrow">→</text>
+      </view>
+    </view>
+
+    <!-- 调整KB大小 -->
+    <view class="tool-card fade-in" style="animation-delay: 0.4s;" bindtap="resizeKB">
+      <view class="tool-icon bg-gradient-primary">
+        <text class="tool-emoji">📉</text>
+      </view>
+      <view class="tool-info">
+        <text class="tool-name">调整KB大小</text>
+        <text class="tool-desc">压缩照片文件大小</text>
+      </view>
+      <view class="tool-arrow">
+        <text class="arrow">→</text>
+      </view>
+    </view>
+
+    <!-- 照片裁剪 -->
+    <view class="tool-card fade-in" style="animation-delay: 0.5s;" bindtap="cropPhoto">
+      <view class="tool-icon bg-gradient-secondary">
+        <text class="tool-emoji">✂️</text>
+      </view>
+      <view class="tool-info">
+        <text class="tool-name">照片裁剪</text>
+        <text class="tool-desc">裁剪到指定尺寸</text>
+      </view>
+      <view class="tool-arrow">
+        <text class="arrow">→</text>
+      </view>
+    </view>
+
+    <!-- 添加水印 -->
+    <view class="tool-card fade-in" style="animation-delay: 0.6s;" bindtap="addWatermark">
+      <view class="tool-icon bg-gradient-success">
+        <text class="tool-emoji">💧</text>
+      </view>
+      <view class="tool-info">
+        <text class="tool-name">添加水印</text>
+        <text class="tool-desc">为照片添加文字水印</text>
+      </view>
+      <view class="tool-arrow">
+        <text class="arrow">→</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 使用提示 -->
+  <view class="tips card">
+    <text class="tips-title">💡 使用提示</text>
+    <text class="tips-text">所有工具都需要先上传照片，AI 会自动为您处理</text>
+  </view>
+</view>

@@ -1,0 +1,26 @@
+<!--pages/profile/guide/guide.wxml-->
+<view class="container">
+  <view class="header">
+    <text class="title">拍摄攻略</text>
+    <text class="subtitle">拍出完美的证件照</text>
+  </view>
+
+  <view class="guide-list">
+    <block wx:for="{{guides}}" wx:key="index">
+      <view class="guide-card fade-in" style="animation-delay: {{index * 0.1}}s;">
+        <view class="guide-header">
+          <text class="guide-icon">{{item.icon}}</text>
+          <text class="guide-title">{{item.title}}</text>
+        </view>
+        <view class="guide-tips">
+          <block wx:for="{{item.tips}}" wx:for-item="tip" wx:for-index="idx" wx:key="idx">
+            <view class="tip-item">
+              <text class="tip-dot">•</text>
+              <text class="tip-text">{{tip}}</text>
+            </view>
+          </block>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

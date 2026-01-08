@@ -1,0 +1,28 @@
+<!--pages/profile/contact/contact.wxml-->
+<view class="container">
+  <view class="header">
+    <text class="title">联系我们</text>
+  </view>
+
+  <view class="contact-list">
+    <view class="contact-card" bindtap="copyText" data-text="support@example.com">
+      <text class="contact-icon">📧</text>
+      <view class="contact-info">
+        <text class="contact-label">邮箱</text>
+        <text class="contact-value">support@example.com</text>
+      </view>
+    </view>
+
+    <view class="contact-card" bindtap="openWechat">
+      <text class="contact-icon">💬</text>
+      <view class="contact-info">
+        <text class="contact-label">微信</text>
+        <text class="contact-value">点击复制微信号</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="tips card">
+    <text class="tips-text">如有任何问题或建议，欢迎通过以上方式联系我们。我们会尽快回复！</text>
+  </view>
+</view>

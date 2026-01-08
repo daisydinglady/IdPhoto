@@ -1,0 +1,30 @@
+<!--pages/profile/about/about.wxml-->
+<view class="container">
+  <view class="header-section">
+    <view class="logo">
+      <text class="logo-icon">📸</text>
+    </view>
+    <text class="app-name">证件照制作</text>
+    <text class="app-version">版本 1.0.0</text>
+  </view>
+
+  <view class="info-section card">
+    <text class="section-title">关于我们</text>
+    <text class="info-text">我们是一款专业的证件照制作小程序，利用AI技术为您提供快速、便捷的证件照制作服务。</text>
+  </view>
+
+  <view class="features-section card">
+    <text class="section-title">核心功能</text>
+    <view class="feature-list">
+      <text class="feature-item">✨ AI智能抠图</text>
+      <text class="feature-item">🎨 多种背景色</text>
+      <text class="feature-item">📐 精准裁切</text>
+      <text class="feature-item">🖼️ 生成排版照</text>
+    </view>
+  </view>
+
+  <view class="tech-section card">
+    <text class="section-title">技术支持</text>
+    <text class="info-text">基于 HivisionIDPhotos 深度学习模型，为您提供专业的证件照处理服务。</text>
+  </view>
+</view>

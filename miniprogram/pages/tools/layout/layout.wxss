@@ -1,0 +1,25 @@
+/* pages/tools/change-bg/change-bg.wxss */
+.tool-page {
+  padding: 60rpx 0;
+  text-align: center;
+}
+
+.tool-title {
+  display: block;
+  font-size: 48rpx;
+  font-weight: 700;
+  color: #2D3748;
+  margin-bottom: 60rpx;
+}
+
+.upload-area {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 80rpx 40rpx;
+  margin-bottom: 40rpx;
+}
+
+.upload-hint {
+  font-size: 28rpx;
+  color: #8B94A6;
+}

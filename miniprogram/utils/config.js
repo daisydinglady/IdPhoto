@@ -3,7 +3,8 @@ const config = {
   // 后端 API 地址
   // 开发环境：http://localhost:3000
   // 生产环境：需要配置为实际的域名（必须 HTTPS）
-  apiBaseURL: 'http://localhost:3000',
+  // apiBaseURL: 'http://localhost:3000',
+  apiBaseURL: 'http://192.168.186.22:3000',
 
   // API 端点
   api: {
