@@ -219,6 +219,45 @@ class HivisionService {
       throw new Error(`Hivision API Error: ${error.message}`);
     }
   }
+
+  /**
+   * 添加水印
+   */
+  async watermark(imageBuffer, text, options = {}) {
+    try {
+      const formData = new FormData();
+      formData.append('input_image', imageBuffer, {
+        filename: 'photo.jpg',
+        contentType: 'image/jpeg'
+      });
+
+      formData.append('text', text || '证件照');
+      formData.append('dpi', options.dpi?.toString() || config.defaults.dpi.toString());
+
+      if (options.opacity !== undefined) {
+        formData.append('opacity', options.opacity.toString());
+      }
+      if (options.size !== undefined) {
+        formData.append('size', options.size.toString());
+      }
+      if (options.position) {
+        formData.append('position', options.position);
+      }
+
+      const response = await axios.post(
+        `${this.baseURL}${this.endpoints.watermark}`,
+        formData,
+        {
+          headers: formData.getHeaders(),
+          timeout: this.timeout
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      throw new Error(`Hivision API Error: ${error.message}`);
+    }
+  }
 }
 
 module.exports = new HivisionService();

@@ -1,10 +1,87 @@
-<!--pages/tools/change-bg/change-bg.wxml-->
+<!--pages/tools/resize-kb/resize-kb.wxml-->
 <view class="container">
-  <view class="tool-page">
-    <text class="tool-title">更换背景色</text>
-    <view class="upload-area">
-      <text class="upload-hint">点击上传照片更换背景色</text>
+  <view class="tool-header">
+    <text class="tool-title">调整KB大小</text>
+    <text class="tool-subtitle">调整照片文件大小</text>
+  </view>
+
+  <!-- 上传区域 -->
+  <view class="upload-section" wx:if="{{!imagePath}}">
+    <view class="upload-placeholder" bindtap="chooseImage">
+      <view class="upload-circle">
+        <text class="upload-icon">📉</text>
+      </view>
+      <text class="upload-title">点击上传照片</text>
+      <text class="upload-hint">支持 JPG、PNG 格式</text>
     </view>
-    <button class="btn btn-primary" bindtap="chooseImage">上传照片</button>
+  </view>
+
+  <!-- 预览区域 -->
+  <view class="preview-section" wx:else>
+    <view class="preview-card">
+      <text class="preview-label">原始图片</text>
+      <image class="preview-image" src="{{imagePath}}" mode="aspectFit" bindtap="previewImage"></image>
+    </view>
+
+    <view class="preview-card" wx:if="{{resultPath}}">
+      <text class="preview-label">调整后图片</text>
+      <image class="preview-image" src="{{resultPath}}" mode="aspectFit" bindtap="previewResult"></image>
+    </view>
+  </view>
+
+  <!-- KB设置 -->
+  <view class="kb-section card" wx:if="{{imagePath && !resultPath}}">
+    <text class="section-title">选择目标大小</text>
+
+    <!-- 预设KB选项 -->
+    <view class="kb-presets">
+      <view
+        class="kb-preset {{kbValue === item ? 'active' : ''}}"
+        wx:for="{{kbPresets}}"
+        wx:key="*this"
+        bindtap="selectKBPreset"
+        data-kb="{{item}}"
+      >
+        <text class="kb-preset-text">{{item}}KB</text>
+      </view>
+    </view>
+
+    <!-- 自定义输入 -->
+    <view class="kb-custom">
+      <text class="kb-custom-label">自定义大小：</text>
+      <input
+        class="kb-input"
+        type="number"
+        placeholder="输入KB大小"
+        value="{{kbValue}}"
+        bindinput="onKBInput"
+      />
+      <text class="kb-unit">KB</text>
+    </view>
+
+    <view class="kb-tip">
+      <text class="tip-icon">💡</text>
+      <text class="tip-text">建议值：50-500KB，过小可能导致画质模糊</text>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-section" wx:if="{{imagePath && !resultPath}}">
+    <button class="btn btn-primary process-btn" bindtap="processResize" disabled="{{processing || !kbValue}}">
+      <text>{{processing ? '处理中...' : '开始调整'}}</text>
+    </button>
+    <button class="btn btn-outline reset-btn" bindtap="reset">
+      <text>重新上传</text>
+    </button>
+  </view>
+
+  <!-- 结果操作按钮 -->
+  <view class="action-section" wx:if="{{resultPath}}">
+    <button class="btn btn-primary process-btn" bindtap="saveToAlbum">
+      <text>保存到相册</text>
+    </button>
+    <button class="btn btn-outline reset-btn" bindtap="reset">
+      <text>重新上传</text>
+    </button>
   </view>
 </view>

@@ -1,10 +1,113 @@
-<!--pages/tools/change-bg/change-bg.wxml-->
+<!--pages/tools/watermark/watermark.wxml-->
 <view class="container">
-  <view class="tool-page">
-    <text class="tool-title">更换背景色</text>
-    <view class="upload-area">
-      <text class="upload-hint">点击上传照片更换背景色</text>
+  <view class="tool-header">
+    <text class="tool-title">添加水印</text>
+    <text class="tool-subtitle">为照片添加文字水印</text>
+  </view>
+
+  <!-- 上传区域 -->
+  <view class="upload-section" wx:if="{{!imagePath}}">
+    <view class="upload-placeholder" bindtap="chooseImage">
+      <view class="upload-circle">
+        <text class="upload-icon">💧</text>
+      </view>
+      <text class="upload-title">点击上传照片</text>
+      <text class="upload-hint">支持 JPG、PNG 格式</text>
     </view>
-    <button class="btn btn-primary" bindtap="chooseImage">上传照片</button>
+  </view>
+
+  <!-- 预览区域 -->
+  <view class="preview-section" wx:else>
+    <view class="preview-card">
+      <text class="preview-label">原始图片</text>
+      <image class="preview-image" src="{{imagePath}}" mode="aspectFit" bindtap="previewImage"></image>
+    </view>
+
+    <view class="preview-card" wx:if="{{resultPath}}">
+      <text class="preview-label">添加水印后</text>
+      <image class="preview-image" src="{{resultPath}}" mode="aspectFit" bindtap="previewResult"></image>
+    </view>
+  </view>
+
+  <!-- 水印设置 -->
+  <view class="watermark-section card" wx:if="{{imagePath && !resultPath}}">
+    <text class="section-title">水印设置</text>
+
+    <!-- 水印文字 -->
+    <view class="input-group">
+      <text class="input-label">水印文字</text>
+      <input
+        class="watermark-input"
+        type="text"
+        placeholder="输入水印文字"
+        value="{{watermarkText}}"
+        bindinput="onTextInput"
+      />
+    </view>
+
+    <!-- 常用预设 -->
+    <view class="presets">
+      <view class="preset-item" bindtap="selectPreset" data-text="仅供使用">
+        <text class="preset-text">仅供使用</text>
+      </view>
+      <view class="preset-item" bindtap="selectPreset" data-text="仅用于报名">
+        <text class="preset-text">仅用于报名</text>
+      </view>
+      <view class="preset-item" bindtap="selectPreset" data-text="证件照专用">
+        <text class="preset-text">证件照专用</text>
+      </view>
+    </view>
+
+    <!-- 透明度 -->
+    <view class="slider-group">
+      <view class="slider-header">
+        <text class="slider-label">透明度</text>
+        <text class="slider-value">{{opacity}}%</text>
+      </view>
+      <slider
+        class="watermark-slider"
+        min="10"
+        max="100"
+        value="{{opacity}}"
+        bindchange="onOpacityChange"
+        activeColor="#667eea"
+      />
+    </view>
+
+    <!-- 字体大小 -->
+    <view class="slider-group">
+      <view class="slider-header">
+        <text class="slider-label">字体大小</text>
+        <text class="slider-value">{{fontSize}}</text>
+      </view>
+      <slider
+        class="watermark-slider"
+        min="10"
+        max="100"
+        value="{{fontSize}}"
+        bindchange="onFontSizeChange"
+        activeColor="#667eea"
+      />
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-section" wx:if="{{imagePath && !resultPath}}">
+    <button class="btn btn-primary process-btn" bindtap="addWatermark" disabled="{{processing || !watermarkText}}">
+      <text>{{processing ? '处理中...' : '添加水印'}}</text>
+    </button>
+    <button class="btn btn-outline reset-btn" bindtap="reset">
+      <text>重新上传</text>
+    </button>
+  </view>
+
+  <!-- 结果操作按钮 -->
+  <view class="action-section" wx:if="{{resultPath}}">
+    <button class="btn btn-primary process-btn" bindtap="saveToAlbum">
+      <text>保存到相册</text>
+    </button>
+    <button class="btn btn-outline reset-btn" bindtap="reset">
+      <text>重新上传</text>
+    </button>
   </view>
 </view>

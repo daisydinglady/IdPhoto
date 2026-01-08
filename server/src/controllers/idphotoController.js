@@ -230,3 +230,32 @@ exports.matting = async (req, res) => {
     });
   }
 };
+
+/**
+ * 添加水印
+ */
+exports.watermark = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: '请上传照片'
+      });
+    }
+
+    const { text, ...options } = req.body;
+
+    const result = await hivisionService.watermark(req.file.buffer, text || '证件照', options);
+
+    res.json({
+      success: true,
+      data: result
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: '添加水印失败',
+      error: error.message
+    });
+  }
+};

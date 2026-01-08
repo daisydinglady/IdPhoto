@@ -155,6 +155,23 @@ const api = {
       name: 'input_image',
       data: options
     });
+  },
+
+  /**
+   * 添加水印
+   * @param {String} filePath 图片本地路径
+   * @param {String} text 水印文字
+   * @param {Object} options 参数
+   */
+  addWatermark(filePath, text, options = {}) {
+    return uploadFile(filePath, {
+      url: config.api.watermark,
+      name: 'input_image',
+      data: {
+        text,
+        ...options
+      }
+    });
   }
 };
 

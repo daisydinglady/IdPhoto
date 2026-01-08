@@ -24,4 +24,7 @@ router.post('/resize-kb', upload.single('input_image'), idphotoController.resize
 // 人像抠图
 router.post('/matting', upload.single('input_image'), idphotoController.matting);
 
+// 添加水印
+router.post('/watermark', upload.single('input_image'), idphotoController.watermark);
+
 module.exports = router;

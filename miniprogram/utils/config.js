@@ -21,7 +21,9 @@ const config = {
     // 调整 KB
     resizeKB: '/api/idphoto/resize-kb',
     // 人像抠图
-    matting: '/api/idphoto/matting'
+    matting: '/api/idphoto/matting',
+    // 添加水印
+    watermark: '/api/idphoto/watermark'
   },
 
   // 历史记录最大数量

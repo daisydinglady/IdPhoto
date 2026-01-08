@@ -1,10 +1,65 @@
-<!--pages/tools/change-bg/change-bg.wxml-->
+<!--pages/tools/layout/layout.wxml-->
 <view class="container">
-  <view class="tool-page">
-    <text class="tool-title">更换背景色</text>
-    <view class="upload-area">
-      <text class="upload-hint">点击上传照片更换背景色</text>
+  <view class="tool-header">
+    <text class="tool-title">生成排版照</text>
+    <text class="tool-subtitle">将证件照排版到六寸相纸</text>
+  </view>
+
+  <!-- 上传区域 -->
+  <view class="upload-section" wx:if="{{!imagePath}}">
+    <view class="upload-placeholder" bindtap="chooseImage">
+      <view class="upload-circle">
+        <text class="upload-icon">📷</text>
+      </view>
+      <text class="upload-title">点击上传照片</text>
+      <text class="upload-hint">支持 JPG、PNG 格式</text>
     </view>
-    <button class="btn btn-primary" bindtap="chooseImage">上传照片</button>
+  </view>
+
+  <!-- 预览区域 -->
+  <view class="preview-section" wx:else>
+    <image class="preview-image" src="{{imagePath}}" mode="aspectFit" bindtap="previewImage"></image>
+  </view>
+
+  <!-- 尺寸选择 -->
+  <view class="size-section card" wx:if="{{imagePath}}">
+    <text class="section-title">选择证件照尺寸</text>
+    <view class="size-list">
+      <view
+        wx:for="{{commonSizes}}"
+        wx:key="id"
+        class="size-item {{selectedSize.id === item.id ? 'active' : ''}}"
+        bindtap="selectSize"
+        data-size="{{item}}"
+      >
+        <text class="size-name">{{item.name}}</text>
+        <text class="size-desc">{{item.desc}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- KB设置 -->
+  <view class="kb-section card" wx:if="{{imagePath}}">
+    <view class="kb-header">
+      <text class="section-title">设置文件大小</text>
+      <text class="kb-hint">可选，默认不调整</text>
+    </view>
+    <input
+      class="kb-input"
+      type="number"
+      placeholder="输入KB大小，如：200"
+      value="{{kbValue}}"
+      bindinput="onKBInput"
+    />
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-section" wx:if="{{imagePath}}">
+    <button class="btn btn-primary process-btn" bindtap="generateLayout" disabled="{{processing}}">
+      <text>{{processing ? '处理中...' : '生成排版照'}}</text>
+    </button>
+    <button class="btn btn-outline reset-btn" bindtap="reset">
+      <text>重新上传</text>
+    </button>
   </view>
 </view>

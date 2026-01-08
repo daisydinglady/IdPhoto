@@ -1,10 +1,102 @@
-<!--pages/tools/change-bg/change-bg.wxml-->
+<!--pages/tools/crop/crop.wxml-->
 <view class="container">
-  <view class="tool-page">
-    <text class="tool-title">更换背景色</text>
-    <view class="upload-area">
-      <text class="upload-hint">点击上传照片更换背景色</text>
+  <view class="tool-header">
+    <text class="tool-title">照片裁剪</text>
+    <text class="tool-subtitle">裁剪照片到指定证件照尺寸</text>
+  </view>
+
+  <!-- 上传区域 -->
+  <view class="upload-section" wx:if="{{!imagePath}}">
+    <view class="upload-placeholder" bindtap="chooseImage">
+      <view class="upload-circle">
+        <text class="upload-icon">📐</text>
+      </view>
+      <text class="upload-title">点击上传照片</text>
+      <text class="upload-hint">支持 JPG、PNG 格式</text>
     </view>
-    <button class="btn btn-primary" bindtap="chooseImage">上传照片</button>
+  </view>
+
+  <!-- 预览区域 -->
+  <view class="preview-section" wx:else>
+    <view class="preview-card">
+      <text class="preview-label">原始图片</text>
+      <image class="preview-image" src="{{imagePath}}" mode="aspectFit" bindtap="previewImage"></image>
+    </view>
+
+    <view class="preview-card" wx:if="{{resultPath}}">
+      <text class="preview-label">裁剪后图片</text>
+      <image class="preview-image" src="{{resultPath}}" mode="aspectFit" bindtap="previewResult"></image>
+    </view>
+  </view>
+
+  <!-- 尺寸选择 -->
+  <view class="size-section card" wx:if="{{imagePath && !resultPath}}">
+    <text class="section-title">选择证件照尺寸</text>
+
+    <!-- 分类标签 -->
+    <view class="category-tabs">
+      <view
+        class="category-tab {{activeCategory === 'common' ? 'active' : ''}}"
+        bindtap="switchCategory"
+        data-category="common"
+      >
+        <text>常用</text>
+      </view>
+      <view
+        class="category-tab {{activeCategory === 'exam' ? 'active' : ''}}"
+        bindtap="switchCategory"
+        data-category="exam"
+      >
+        <text>考试</text>
+      </view>
+      <view
+        class="category-tab {{activeCategory === 'visa' ? 'active' : ''}}"
+        bindtap="switchCategory"
+        data-category="visa"
+      >
+        <text>签证</text>
+      </view>
+    </view>
+
+    <!-- 尺寸列表 -->
+    <scroll-view class="size-scroll" scroll-y="{{true}}">
+      <view class="size-list">
+        <view
+          wx:for="{{currentSizes}}"
+          wx:key="id"
+          class="size-item {{selectedSize.id === item.id ? 'active' : ''}}"
+          bindtap="selectSize"
+          data-size="{{item}}"
+        >
+          <view class="size-main">
+            <text class="size-name">{{item.name}}</text>
+            <text class="size-desc">{{item.desc}}</text>
+          </view>
+          <view class="size-check" wx:if="{{selectedSize.id === item.id}}">
+            <text class="check-icon">✓</text>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-section" wx:if="{{imagePath && !resultPath}}">
+    <button class="btn btn-primary process-btn" bindtap="processCrop" disabled="{{processing}}">
+      <text>{{processing ? '处理中...' : '开始裁剪'}}</text>
+    </button>
+    <button class="btn btn-outline reset-btn" bindtap="reset">
+      <text>重新上传</text>
+    </button>
+  </view>
+
+  <!-- 结果操作按钮 -->
+  <view class="action-section" wx:if="{{resultPath}}">
+    <button class="btn btn-primary process-btn" bindtap="saveToAlbum">
+      <text>保存到相册</text>
+    </button>
+    <button class="btn btn-outline reset-btn" bindtap="reset">
+      <text>重新上传</text>
+    </button>
   </view>
 </view>
