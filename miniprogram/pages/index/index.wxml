@@ -1,43 +1,50 @@
 <!--pages/index/index.wxml-->
 <view class="container">
-  <!-- 头部 -->
+  <!-- 头部 - 渐变设计 -->
   <view class="header">
+    <view class="header-badge">
+      <text class="badge-icon">✨</text>
+      <text class="badge-text">AI 智能制作</text>
+    </view>
     <text class="title">证件照制作</text>
-    <text class="subtitle">选择你需要的证件照类型</text>
+    <text class="subtitle">一键生成专业证件照</text>
   </view>
 
-  <!-- 分类标签 -->
+  <!-- 分类标签 - 现代设计 -->
   <view class="tabs">
     <view
       class="tab {{currentTab === 'common' ? 'active' : ''}}"
       data-tab="common"
       bindtap="switchTab"
     >
-      常用尺寸
+      <text class="tab-icon">📐</text>
+      <text class="tab-text">常用尺寸</text>
     </view>
     <view
       class="tab {{currentTab === 'exam' ? 'active' : ''}}"
       data-tab="exam"
       bindtap="switchTab"
     >
-      考试报名
+      <text class="tab-icon">📝</text>
+      <text class="tab-text">考试报名</text>
     </view>
     <view
       class="tab {{currentTab === 'visa' ? 'active' : ''}}"
       data-tab="visa"
       bindtap="switchTab"
     >
-      签证护照
+      <text class="tab-icon">✈️</text>
+      <text class="tab-text">签证护照</text>
     </view>
   </view>
 
-  <!-- 证件照列表 -->
+  <!-- 证件照列表 - 卡片设计 -->
   <view class="photo-list">
     <block wx:for="{{currentList}}" wx:key="id">
-      <view class="photo-card" bindtap="selectSize" data-size="{{item}}">
+      <view class="photo-card fade-in" style="animation-delay: {{index * 0.1}}s;" bindtap="selectSize" data-size="{{item}}">
         <view class="photo-icon">
-          <view class="photo-placeholder">
-            <text class="photo-text">{{item.width}}×{{item.height}}</text>
+          <view class="photo-placeholder bg-gradient-{{item.category || 'primary'}}">
+            <text class="photo-dims">{{item.width}}×{{item.height}}</text>
           </view>
         </view>
         <view class="photo-info">
@@ -50,7 +57,9 @@
           </view>
         </view>
         <view class="photo-arrow">
-          <text class="arrow">›</text>
+          <view class="arrow-circle">
+            <text class="arrow-icon">→</text>
+          </view>
         </view>
       </view>
     </block>
@@ -58,6 +67,19 @@
 
   <!-- 底部说明 -->
   <view class="footer">
-    <text class="footer-text">AI 智能抠图 · 自动裁切 · 多种尺寸</text>
+    <view class="footer-badges">
+      <view class="footer-badge">
+        <text class="badge-emoji">⚡</text>
+        <text class="badge-label">智能抠图</text>
+      </view>
+      <view class="footer-badge">
+        <text class="badge-emoji">🎨</text>
+        <text class="badge-label">多色背景</text>
+      </view>
+      <view class="footer-badge">
+        <text class="badge-emoji">📐</text>
+        <text class="badge-label">精准裁切</text>
+      </view>
+    </view>
   </view>
 </view>

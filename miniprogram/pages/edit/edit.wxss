@@ -5,17 +5,35 @@
 
 .canvas-container {
   background: #fff;
-  border-radius: 16rpx;
-  padding: 20rpx;
+  border-radius: 32rpx;
+  padding: 24rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 800rpx;
+  box-shadow: 0 12rpx 40rpx rgba(102, 126, 234, 0.12);
+  border: 4rpx solid transparent;
+  background-clip: padding-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.canvas-container::before {
+  content: '';
+  position: absolute;
+  top: -4rpx;
+  left: -4rpx;
+  right: -4rpx;
+  bottom: -4rpx;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 32rpx;
+  z-index: -1;
 }
 
 .photo-image {
   width: 100%;
   max-height: 800rpx;
+  border-radius: 20rpx;
 }
 
 /* 区域标题 */
@@ -24,68 +42,87 @@
 }
 
 .section-title {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
   font-size: 32rpx;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 20rpx;
+  font-weight: 700;
+  color: #2D3748;
+  margin-bottom: 24rpx;
+}
+
+.section-title::before {
+  content: '🎨';
+  font-size: 36rpx;
 }
 
 /* 背景色列表 */
 .color-list {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 16rpx;
 }
 
 .color-item {
-  flex: 1;
-  height: 120rpx;
-  border-radius: 12rpx;
+  height: 140rpx;
+  border-radius: 20rpx;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   border: 4rpx solid transparent;
-  transition: all 0.3s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.color-item:active {
+  transform: scale(0.95);
 }
 
 .color-item.active {
-  border-color: #4A90E2;
+  border-color: #667eea;
   transform: scale(1.05);
+  box-shadow: 0 8rpx 24rpx rgba(102, 126, 234, 0.3);
 }
 
 .color-item.active::after {
   content: '✓';
   position: absolute;
-  bottom: -10rpx;
-  right: -10rpx;
+  top: 8rpx;
+  right: 8rpx;
   width: 40rpx;
   height: 40rpx;
-  background: #4A90E2;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: #fff;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 24rpx;
+  font-weight: bold;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.15);
 }
 
 .color-name {
   font-size: 24rpx;
-  color: #333;
-  font-weight: bold;
+  color: #2D3748;
+  font-weight: 600;
+  margin-top: 8rpx;
 }
 
 /* 功能按钮 */
 .action-buttons {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 20rpx;
   margin-bottom: 30rpx;
 }
 
 .action-buttons .btn {
-  flex: 1;
+  height: 100rpx;
+  line-height: 100rpx;
+  font-size: 28rpx;
 }
 
 /* 底部操作 */

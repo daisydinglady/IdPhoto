@@ -1,48 +1,79 @@
 <!--pages/upload/upload.wxml-->
 <view class="container">
-  <!-- 证件照类型信息 -->
+  <!-- 证件照类型信息 - 现代卡片 -->
   <view class="card type-info">
     <view class="type-header">
-      <text class="type-name">{{photoType.name}}</text>
-      <text class="type-size">{{photoType.width}} × {{photoType.height}} px</text>
+      <view class="type-badge bg-gradient-primary">
+        <text class="type-badge-text">证件照</text>
+      </view>
+      <view class="type-title">
+        <text class="type-name">{{photoType.name}}</text>
+        <text class="type-size">{{photoType.width}} × {{photoType.height}}</text>
+      </view>
     </view>
     <text class="type-desc">{{photoType.desc}}</text>
+    <view class="type-tips">
+      <text class="tip-item">✨ AI 自动抠图</text>
+      <text class="tip-item">🎨 多色可选</text>
+      <text class="tip-item">📐 精准裁切</text>
+    </view>
   </view>
 
-  <!-- 上传区域 -->
+  <!-- 上传区域 - 渐变边框 -->
   <view class="upload-section">
-    <view class="upload-preview" bindtap="chooseImage">
+    <view class="upload-container" bindtap="chooseImage">
       <block wx:if="{{imagePath}}">
         <image class="preview-image" src="{{imagePath}}" mode="aspectFill"></image>
-        <view class="change-image">
-          <text>点击更换</text>
+        <view class="change-overlay">
+          <text class="change-icon">🔄</text>
+          <text class="change-text">点击更换</text>
         </view>
       </block>
       <block wx:else>
         <view class="upload-placeholder">
-          <text class="upload-icon">+</text>
-          <text class="upload-text">点击上传照片</text>
-          <text class="upload-hint">支持 JPG、PNG 格式，小于 10MB</text>
+          <view class="upload-circle">
+            <text class="upload-icon">📷</text>
+          </view>
+          <text class="upload-title">点击上传照片</text>
+          <text class="upload-hint">或从相册选择</text>
+          <view class="upload-features">
+            <text class="feature-tag">JPG</text>
+            <text class="feature-tag">PNG</text>
+            <text class="feature-tag">≤10MB</text>
+          </view>
         </view>
       </block>
     </view>
   </view>
 
-  <!-- 拍照按钮 -->
+  <!-- 拍照按钮 - 渐变设计 -->
   <view class="camera-section">
-    <button class="btn btn-primary camera-btn" bindtap="takePhoto">
-      <text>📷 拍照上传</text>
+    <button class="btn btn-secondary camera-btn" bindtap="takePhoto">
+      <text class="btn-icon">📸</text>
+      <text>拍照上传</text>
     </button>
   </view>
 
-  <!-- 上传要求 -->
+  <!-- 上传要求 - 卡片设计 -->
   <view class="requirements card">
-    <text class="req-title">照片要求</text>
+    <text class="req-title">💡 照片要求</text>
     <view class="req-list">
-      <text class="req-item">• 请使用近期正面照片</text>
-      <text class="req-item">• 光线充足，背景干净</text>
-      <text class="req-item">• 五官清晰，表情自然</text>
-      <text class="req-item">• 不戴帽子、墨镜等饰品</text>
+      <view class="req-item fade-in" style="animation-delay: 0.1s;">
+        <text class="req-icon">😊</text>
+        <text class="req-text">正面照片，表情自然</text>
+      </view>
+      <view class="req-item fade-in" style="animation-delay: 0.2s;">
+        <text class="req-icon">💡</text>
+        <text class="req-text">光线充足，背景干净</text>
+      </view>
+      <view class="req-item fade-in" style="animation-delay: 0.3s;">
+        <text class="req-icon">👁️</text>
+        <text class="req-text">五官清晰，无遮挡</text>
+      </view>
+      <view class="req-item fade-in" style="animation-delay: 0.4s;">
+        <text class="req-icon">🚫</text>
+        <text class="req-text">不戴帽子、墨镜等饰品</text>
+      </view>
     </view>
   </view>
 
@@ -53,7 +84,8 @@
       bindtap="generateIdphoto"
       disabled="{{!imagePath}}"
     >
-      <text>{{loading ? '处理中...' : '开始制作'}}</text>
+      <text class="btn-icon">{{loading ? '⏳' : '✨'}}</text>
+      <text>{{loading ? 'AI 处理中...' : '开始制作'}}</text>
     </button>
   </view>
 </view>
