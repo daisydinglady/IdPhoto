@@ -20,13 +20,25 @@ class HivisionService {
         contentType: 'image/jpeg'
       });
 
-      // 检测是否为横向照片（宽 > 高）
-      const isHorizontal = options.width && options.height && options.width > options.height;
+      let height = options.height || 413;
+      let width = options.width || 295;
+
+      // 检测是否为横向尺寸定义（宽 > 高）
+      // 注意：虽然尺寸定义可能是横向的（如五寸 1499×1050），但实际照片应该是竖向的
+      // Gradio 配置中的 (1499, 1050) 可能是 (width, height) 格式，而不是
+      if (width > height) {
+        console.log('[generateIdphoto] 检测到横向尺寸定义，交换参数:', {
+          原始: { width, height },
+          交换后: { width: height, height: width }
+        });
+        // 交换参数，确保传递给 API 的是竖向照片尺寸（height > width）
+        [height, width] = [width, height];
+      }
 
       // 合并默认参数
       const params = {
-        height: options.height || 413,
-        width: options.width || 295,
+        height: height,
+        width: width,
         human_matting_model: options.human_matting_model || 'modnet_photographic_portrait_matting',
         face_detect_model: options.face_detect_model || 'mtcnn',
         hd: options.hd !== undefined ? options.hd : config.defaults.hd,
@@ -42,22 +54,6 @@ class HivisionService {
         saturation_strength: options.saturation_strength || config.defaults.saturationStrength
       };
 
-      // 针对横向照片（如五寸照）调整参数
-      if (isHorizontal) {
-        // 横向照片时，减少面部比例，避免人脸被截断
-        params.head_measure_ratio = options.head_measure_ratio || 0.15;
-        params.head_height_ratio = options.head_height_ratio || 0.5;
-        params.top_distance_max = options.top_distance_max || 0.15;
-        params.top_distance_min = options.top_distance_min || 0.12;
-
-        console.log('[generateIdphoto] Horizontal photo detected, adjusted params:', {
-          width: params.width,
-          height: params.height,
-          head_measure_ratio: params.head_measure_ratio,
-          head_height_ratio: params.head_height_ratio
-        });
-      }
-
       Object.keys(params).forEach(key => {
         formData.append(key, params[key].toString());
       });
@@ -65,7 +61,7 @@ class HivisionService {
       console.log('[generateIdphoto] Calling API with:', {
         height: params.height,
         width: params.width,
-        isHorizontal
+        最终照片方向: params.height > params.width ? '竖向 ✓' : '横向 ✗'
       });
 
       const response = await axios.post(
