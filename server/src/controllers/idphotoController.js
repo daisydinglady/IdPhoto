@@ -153,7 +153,9 @@ exports.adjustIdphoto = async (req, res) => {
 
     const options = req.body;
 
-    const result = await hivisionService.cropIdphoto(req.file.buffer, options);
+    // 调用 generateIdphoto 方法（使用 /idphoto 接口）
+    // 该接口内部包含抠图+裁剪+透明底，可以处理RGB图像
+    const result = await hivisionService.generateIdphoto(req.file.buffer, options);
 
     res.json({
       success: true,
