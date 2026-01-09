@@ -35,13 +35,12 @@ module.exports = {
     {
       id: 'c4',
       name: '五寸',
-      width: 1499,
-      height: 1050,
+      width: 1050,
+      height: 1499,
       dpi: 300,
-      desc: '127mm × 89mm（横向照片）',
+      desc: '127mm × 89mm',
       category: 'common',
-      usage: ['生活照', '普通照片'],
-      isHorizontal: true  // 标识为横向照片
+      usage: ['生活照', '普通照片']
     }
   ],
 
