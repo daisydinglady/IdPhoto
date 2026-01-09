@@ -1,5 +1,6 @@
 const axios = require('axios');
 const FormData = require('form-data');
+const sharp = require('sharp');
 const config = require('../config/hivision');
 
 class HivisionService {
@@ -23,15 +24,8 @@ class HivisionService {
       let height = options.height || 413;
       let width = options.width || 295;
 
-      // 检测是否为横向尺寸定义（宽 > 高）
-      // 注意：虽然尺寸定义可能是横向的（如五寸 1499×1050），但实际照片应该是竖向的
-      // Gradio 配置中的 (1499, 1050) 可能是 (width, height) 格式，而不是
+      // 检测是否为横向尺寸定义（宽 > 高），交换参数确保生成竖向照片
       if (width > height) {
-        console.log('[generateIdphoto] 检测到横向尺寸定义，交换参数:', {
-          原始: { width, height },
-          交换后: { width: height, height: width }
-        });
-        // 交换参数，确保传递给 API 的是竖向照片尺寸（height > width）
         [height, width] = [width, height];
       }
 
@@ -58,12 +52,6 @@ class HivisionService {
         formData.append(key, params[key].toString());
       });
 
-      console.log('[generateIdphoto] Calling API with:', {
-        height: params.height,
-        width: params.width,
-        最终照片方向: params.height > params.width ? '竖向 ✓' : '横向 ✗'
-      });
-
       const response = await axios.post(
         `${this.baseURL}${this.endpoints.idphoto}`,
         formData,
@@ -72,8 +60,6 @@ class HivisionService {
           timeout: this.timeout
         }
       );
-
-      console.log('[generateIdphoto] API Response status:', response.status);
 
       return response.data;
     } catch (error) {
@@ -112,6 +98,7 @@ class HivisionService {
 
       return response.data;
     } catch (error) {
+      console.error('[addBackground] Error:', error.message);
       throw new Error(`Hivision API Error: ${error.message}`);
     }
   }
@@ -121,31 +108,46 @@ class HivisionService {
    */
   async generateLayout(imageBuffer, options = {}) {
     try {
+      const width = parseInt(options.width) || 295;
+      const height = parseInt(options.height) || 413;
+      const maxDimension = Math.max(width, height);
+      const isLargePhoto = maxDimension >= 1000;
+
+      let processedImageBuffer = imageBuffer;
+      let actualHeight = height;
+      let actualWidth = width;
+
+      // 对五寸照等大尺寸照片进行旋转处理，避免排版时被拉伸
+      if (isLargePhoto) {
+        try {
+          // 旋转图像90度（顺时针）
+          processedImageBuffer = await sharp(imageBuffer)
+            .rotate(90)
+            .toBuffer();
+
+          // 获取旋转后的实际尺寸
+          const rotatedMetadata = await sharp(processedImageBuffer).metadata();
+          actualHeight = rotatedMetadata.height;
+          actualWidth = rotatedMetadata.width;
+        } catch (rotateError) {
+          console.error('[generateLayout] 图像旋转失败，使用原图:', rotateError.message);
+          processedImageBuffer = imageBuffer;
+        }
+      }
+
       const formData = new FormData();
-      formData.append('input_image', imageBuffer, {
+      formData.append('input_image', processedImageBuffer, {
         filename: 'photo.jpg',
         contentType: 'image/jpeg'
       });
 
-      // 注意：这里的 height 和 width 是指输入的单张证件照的尺寸，不是排版后的尺寸
-      // API 会根据输入图像的尺寸自动计算排版布局
-      const height = options.height?.toString() || '413';
-      const width = options.width?.toString() || '295';
-
-      formData.append('height', height);
-      formData.append('width', width);
+      formData.append('height', actualHeight.toString());
+      formData.append('width', actualWidth.toString());
       formData.append('dpi', options.dpi?.toString() || config.defaults.dpi.toString());
 
       if (options.kb) {
         formData.append('kb', options.kb.toString());
       }
-
-      // 添加调试日志
-      console.log('[generateLayout] Calling API with:', {
-        height,
-        width,
-        dpi: options.dpi || config.defaults.dpi
-      });
 
       const response = await axios.post(
         `${this.baseURL}${this.endpoints.generateLayout}`,
@@ -156,11 +158,6 @@ class HivisionService {
         }
       );
 
-      console.log('[generateLayout] API Response:', {
-        status: response.status,
-        hasData: !!response.data?.image_base64
-      });
-
       // 检查响应数据
       if (!response.data || !response.data.image_base64) {
         throw new Error('排版照生成失败：API 未返回有效数据');
@@ -170,7 +167,6 @@ class HivisionService {
     } catch (error) {
       console.error('[generateLayout] Error:', error.message);
 
-      // 如果是 axios 错误，提取更详细的信息
       if (error.response) {
         console.error('[generateLayout] API Error Response:', {
           status: error.response.status,
@@ -214,6 +210,7 @@ class HivisionService {
 
       return response.data;
     } catch (error) {
+      console.error('[cropIdphoto] Error:', error.message);
       throw new Error(`Hivision API Error: ${error.message}`);
     }
   }
@@ -243,6 +240,7 @@ class HivisionService {
 
       return response.data;
     } catch (error) {
+      console.error('[setKB] Error:', error.message);
       throw new Error(`Hivision API Error: ${error.message}`);
     }
   }
@@ -272,6 +270,7 @@ class HivisionService {
 
       return response.data;
     } catch (error) {
+      console.error('[humanMatting] Error:', error.message);
       throw new Error(`Hivision API Error: ${error.message}`);
     }
   }
@@ -311,6 +310,7 @@ class HivisionService {
 
       return response.data;
     } catch (error) {
+      console.error('[watermark] Error:', error.message);
       throw new Error(`Hivision API Error: ${error.message}`);
     }
   }
