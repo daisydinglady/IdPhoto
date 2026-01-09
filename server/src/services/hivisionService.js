@@ -1,6 +1,5 @@
 const axios = require('axios');
 const FormData = require('form-data');
-const sharp = require('sharp');
 const config = require('../config/hivision');
 
 class HivisionService {
@@ -21,18 +20,10 @@ class HivisionService {
         contentType: 'image/jpeg'
       });
 
-      let height = options.height || 413;
-      let width = options.width || 295;
-
-      // 检测是否为横向尺寸定义（宽 > 高），交换参数确保生成竖向照片
-      if (width > height) {
-        [height, width] = [width, height];
-      }
-
       // 合并默认参数
       const params = {
-        height: height,
-        width: width,
+        height: options.height || 413,
+        width: options.width || 295,
         human_matting_model: options.human_matting_model || 'modnet_photographic_portrait_matting',
         face_detect_model: options.face_detect_model || 'mtcnn',
         hd: options.hd !== undefined ? options.hd : config.defaults.hd,
@@ -108,41 +99,14 @@ class HivisionService {
    */
   async generateLayout(imageBuffer, options = {}) {
     try {
-      const width = parseInt(options.width) || 295;
-      const height = parseInt(options.height) || 413;
-      const maxDimension = Math.max(width, height);
-      const isLargePhoto = maxDimension >= 1000;
-
-      let processedImageBuffer = imageBuffer;
-      let actualHeight = height;
-      let actualWidth = width;
-
-      // 对五寸照等大尺寸照片进行旋转处理，避免排版时被拉伸
-      if (isLargePhoto) {
-        try {
-          // 旋转图像90度（顺时针）
-          processedImageBuffer = await sharp(imageBuffer)
-            .rotate(90)
-            .toBuffer();
-
-          // 获取旋转后的实际尺寸
-          const rotatedMetadata = await sharp(processedImageBuffer).metadata();
-          actualHeight = rotatedMetadata.height;
-          actualWidth = rotatedMetadata.width;
-        } catch (rotateError) {
-          console.error('[generateLayout] 图像旋转失败，使用原图:', rotateError.message);
-          processedImageBuffer = imageBuffer;
-        }
-      }
-
       const formData = new FormData();
-      formData.append('input_image', processedImageBuffer, {
+      formData.append('input_image', imageBuffer, {
         filename: 'photo.jpg',
         contentType: 'image/jpeg'
       });
 
-      formData.append('height', actualHeight.toString());
-      formData.append('width', actualWidth.toString());
+      formData.append('height', options.height?.toString() || '413');
+      formData.append('width', options.width?.toString() || '295');
       formData.append('dpi', options.dpi?.toString() || config.defaults.dpi.toString());
 
       if (options.kb) {
