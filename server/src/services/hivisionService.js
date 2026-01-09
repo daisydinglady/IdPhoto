@@ -20,6 +20,9 @@ class HivisionService {
         contentType: 'image/jpeg'
       });
 
+      // 检测是否为横向照片（宽 > 高）
+      const isHorizontal = options.width && options.height && options.width > options.height;
+
       // 合并默认参数
       const params = {
         height: options.height || 413,
@@ -39,8 +42,30 @@ class HivisionService {
         saturation_strength: options.saturation_strength || config.defaults.saturationStrength
       };
 
+      // 针对横向照片（如五寸照）调整参数
+      if (isHorizontal) {
+        // 横向照片时，减少面部比例，避免人脸被截断
+        params.head_measure_ratio = options.head_measure_ratio || 0.15;
+        params.head_height_ratio = options.head_height_ratio || 0.5;
+        params.top_distance_max = options.top_distance_max || 0.15;
+        params.top_distance_min = options.top_distance_min || 0.12;
+
+        console.log('[generateIdphoto] Horizontal photo detected, adjusted params:', {
+          width: params.width,
+          height: params.height,
+          head_measure_ratio: params.head_measure_ratio,
+          head_height_ratio: params.head_height_ratio
+        });
+      }
+
       Object.keys(params).forEach(key => {
         formData.append(key, params[key].toString());
+      });
+
+      console.log('[generateIdphoto] Calling API with:', {
+        height: params.height,
+        width: params.width,
+        isHorizontal
       });
 
       const response = await axios.post(
@@ -52,8 +77,11 @@ class HivisionService {
         }
       );
 
+      console.log('[generateIdphoto] API Response status:', response.status);
+
       return response.data;
     } catch (error) {
+      console.error('[generateIdphoto] Error:', error.message);
       throw new Error(`Hivision API Error: ${error.message}`);
     }
   }
@@ -103,13 +131,25 @@ class HivisionService {
         contentType: 'image/jpeg'
       });
 
-      formData.append('height', options.height?.toString() || '413');
-      formData.append('width', options.width?.toString() || '295');
+      // 注意：这里的 height 和 width 是指输入的单张证件照的尺寸，不是排版后的尺寸
+      // API 会根据输入图像的尺寸自动计算排版布局
+      const height = options.height?.toString() || '413';
+      const width = options.width?.toString() || '295';
+
+      formData.append('height', height);
+      formData.append('width', width);
       formData.append('dpi', options.dpi?.toString() || config.defaults.dpi.toString());
 
       if (options.kb) {
         formData.append('kb', options.kb.toString());
       }
+
+      // 添加调试日志
+      console.log('[generateLayout] Calling API with:', {
+        height,
+        width,
+        dpi: options.dpi || config.defaults.dpi
+      });
 
       const response = await axios.post(
         `${this.baseURL}${this.endpoints.generateLayout}`,
@@ -120,9 +160,29 @@ class HivisionService {
         }
       );
 
+      console.log('[generateLayout] API Response:', {
+        status: response.status,
+        hasData: !!response.data?.image_base64
+      });
+
+      // 检查响应数据
+      if (!response.data || !response.data.image_base64) {
+        throw new Error('排版照生成失败：API 未返回有效数据');
+      }
+
       return response.data;
     } catch (error) {
-      throw new Error(`Hivision API Error: ${error.message}`);
+      console.error('[generateLayout] Error:', error.message);
+
+      // 如果是 axios 错误，提取更详细的信息
+      if (error.response) {
+        console.error('[generateLayout] API Error Response:', {
+          status: error.response.status,
+          data: error.response.data
+        });
+      }
+
+      throw new Error(`排版照生成失败: ${error.message}`);
     }
   }
 

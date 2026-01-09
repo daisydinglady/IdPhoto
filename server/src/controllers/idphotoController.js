@@ -6,7 +6,7 @@ const photoSizes = {
     { id: 'c1', name: '一寸', width: 295, height: 413, dpi: 300, desc: '25mm × 35mm', category: 'common' },
     { id: 'c2', name: '二寸', width: 413, height: 626, dpi: 300, desc: '35mm × 53mm', category: 'common' },
     { id: 'c3', name: '小二寸', width: 390, height: 567, dpi: 300, desc: '33mm × 48mm', category: 'common' },
-    { id: 'c4', name: '五寸', width: 1772, height: 1181, dpi: 300, desc: '127mm × 89mm', category: 'common' }
+    { id: 'c4', name: '五寸', width: 1499, height: 1050, dpi: 300, desc: '127mm × 89mm（横向照片）', category: 'common', isHorizontal: true }
   ],
   exam: [
     { id: 'e1', name: '四六级', width: 295, height: 413, dpi: 300, desc: '一寸照', category: 'exam' },
