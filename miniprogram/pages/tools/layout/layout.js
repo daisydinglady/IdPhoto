@@ -6,6 +6,7 @@ const photoSizes = require('../../../data/photo-sizes.js');
 Page({
   data: {
     imagePath: '',
+    resultPath: '',
     selectedSize: photoSizes.common[0], // 默认选择一寸
     commonSizes: photoSizes.common,
     kbValue: '',
@@ -22,7 +23,10 @@ Page({
       sourceType: ['album', 'camera'],
       success: (res) => {
         const tempFilePath = res.tempFilePaths[0];
-        this.setData({ imagePath: tempFilePath });
+        this.setData({
+          imagePath: tempFilePath,
+          resultPath: ''
+        });
       }
     });
   },
@@ -48,6 +52,15 @@ Page({
   previewImage() {
     wx.previewImage({
       urls: [this.data.imagePath]
+    });
+  },
+
+  /**
+   * 预览结果图片
+   */
+  previewResult() {
+    wx.previewImage({
+      urls: [this.data.resultPath]
     });
   },
 
@@ -79,25 +92,20 @@ Page({
       wx.hideLoading();
 
       if (result.success && result.data.image_base64) {
-        // 保存到临时文件并预览
+        // 保存到临时文件
         const filePath = await storage.saveBase64Image(
           result.data.image_base64,
           `layout-${Date.now()}.jpg`
         );
 
-        wx.showModal({
-          title: '处理成功',
-          content: '是否保存到相册？',
-          success: (res) => {
-            if (res.confirm) {
-              this.saveToAlbum(filePath);
-            } else {
-              this.setData({
-                imagePath: filePath,
-                processing: false
-              });
-            }
-          }
+        this.setData({
+          resultPath: filePath,
+          processing: false
+        });
+
+        wx.showToast({
+          title: '生成成功',
+          icon: 'success'
         });
       } else {
         throw new Error(result.message || '处理失败');
@@ -108,7 +116,6 @@ Page({
         title: error.message || '处理失败',
         icon: 'none'
       });
-    } finally {
       this.setData({ processing: false });
     }
   },
@@ -116,9 +123,14 @@ Page({
   /**
    * 保存到相册
    */
-  async saveToAlbum(filePath) {
+  async saveToAlbum() {
+    if (!this.data.resultPath) {
+      wx.showToast({ title: '没有可保存的图片', icon: 'none' });
+      return;
+    }
+
     try {
-      await storage.saveImageToPhotosAlbum(filePath);
+      await storage.saveImageToPhotosAlbum(this.data.resultPath);
       wx.showToast({
         title: '已保存到相册',
         icon: 'success'
@@ -137,6 +149,7 @@ Page({
   reset() {
     this.setData({
       imagePath: '',
+      resultPath: '',
       selectedSize: photoSizes.common[0],
       kbValue: '',
       processing: false

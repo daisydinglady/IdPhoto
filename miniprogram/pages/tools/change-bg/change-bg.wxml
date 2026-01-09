@@ -18,11 +18,19 @@
 
   <!-- 预览区域 -->
   <view class="preview-section" wx:else>
-    <image class="preview-image" src="{{imagePath}}" mode="aspectFit" bindtap="previewImage"></image>
+    <view class="preview-card">
+      <text class="preview-label">原始图片</text>
+      <image class="preview-image" src="{{imagePath}}" mode="aspectFit" bindtap="previewImage"></image>
+    </view>
+
+    <view class="preview-card" wx:if="{{resultPath}}">
+      <text class="preview-label">更换背景后</text>
+      <image class="preview-image" src="{{resultPath}}" mode="aspectFit" bindtap="previewResult"></image>
+    </view>
   </view>
 
   <!-- 背景色选择 -->
-  <view class="color-section card" wx:if="{{imagePath}}">
+  <view class="color-section card" wx:if="{{imagePath && !resultPath}}">
     <text class="section-title">选择背景色</text>
     <view class="color-list">
       <view
@@ -61,7 +69,7 @@
   </view>
 
   <!-- KB设置 -->
-  <view class="kb-section card" wx:if="{{imagePath}}">
+  <view class="kb-section card" wx:if="{{imagePath && !resultPath}}">
     <view class="kb-header">
       <text class="section-title">设置文件大小</text>
       <text class="kb-hint">可选，默认不调整</text>
@@ -76,9 +84,19 @@
   </view>
 
   <!-- 操作按钮 -->
-  <view class="action-section" wx:if="{{imagePath}}">
+  <view class="action-section" wx:if="{{imagePath && !resultPath}}">
     <button class="btn btn-primary process-btn" bindtap="changeBackground" disabled="{{processing}}">
       <text>{{processing ? '处理中...' : '开始处理'}}</text>
+    </button>
+    <button class="btn btn-outline reset-btn" bindtap="reset">
+      <text>重新上传</text>
+    </button>
+  </view>
+
+  <!-- 结果操作按钮 -->
+  <view class="action-section" wx:if="{{resultPath}}">
+    <button class="btn btn-primary process-btn" bindtap="saveToAlbum">
+      <text>保存到相册</text>
     </button>
     <button class="btn btn-outline reset-btn" bindtap="reset">
       <text>重新上传</text>

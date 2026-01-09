@@ -24,7 +24,7 @@
     </view>
 
     <view class="preview-card" wx:if="{{resultPath}}">
-      <text class="preview-label">裁剪后图片</text>
+      <text class="preview-label">裁剪后图片(默认返回透明底图)</text>
       <image class="preview-image" src="{{resultPath}}" mode="aspectFit" bindtap="previewResult"></image>
     </view>
   </view>
