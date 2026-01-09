@@ -100,11 +100,19 @@ Page({
 
       wx.hideLoading();
 
-      if (result.success && result.data.image_base64) {
+      // 检查返回的数据
+      if (result.success && result.data) {
+        // 优先使用标准尺寸，如果没有则使用高清尺寸
+        const imageBase64 = result.data.image_base64_standard || result.data.image_base64_hd;
+
+        if (!imageBase64) {
+          throw new Error('未返回有效的图片数据');
+        }
+
         // 保存到临时文件
         const filePath = await storage.saveBase64Image(
-          result.data.image_base64,
-          `crop-${Date.now()}.jpg`
+          imageBase64,
+          `crop-${Date.now()}.png`
         );
 
         this.setData({
